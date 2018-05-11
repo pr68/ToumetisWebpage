@@ -1,0 +1,43 @@
+body {
+    display: grid;
+    grid-gap: 10px;
+    padding: 10px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+}
+
+#loc-input {
+    grid-column: 1 /span 3;
+    grid-row: 2;
+}
+
+#ctemp {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+#cweather {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#sdown {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+#container {
+    grid-column: 1 /span 3;
+    grid-row: 4;
+}
+
+.item {
+    border: solid black 1px;
+    border-radius: 10px;
+    padding: 10px;
+}
