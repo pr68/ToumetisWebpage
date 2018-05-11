@@ -1,9 +1,20 @@
 window.onload = function() {
     document.getElementById("button1").addEventListener("click", getID);
 }
+var mymap = L.map("locmap", {
+    center: [50, 0.1],
+    zoom: 12
+});
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: 'pk.eyJ1IjoicHI2OCIsImEiOiJjamIyMXpkZXc4dDE5MndxZW44czVhaXBkIn0.0sfaLuXhICPEABMRJjc2Pw'
+            }).addTo(mymap);
 
 function getID() {
-    var location = document.getElementById("loc").value;
+    var full_location = document.getElementById("loc").value.split(",");
+    var location = full_location[0];
     var base_url = "http://interview.toumetisanalytics.com/location/";
     var url = base_url + location;
     var woeid;
@@ -31,15 +42,8 @@ function getWeather(id) {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.response);
            
-            var tpara = document.createElement("P");
-            var t = document.createTextNode(this.response.consolidated_weather[0].the_temp);
-            tpara.appendChild(t);
-            document.getElementById("ctemp").appendChild(tpara);
-            
-            var wpara = document.createElement("P");
-            var w = document.createTextNode(this.response.consolidated_weather[0].weather_state_name);
-            wpara.appendChild(w);
-            document.getElementById("cweather").appendChild(wpara);
+            document.getElementById("t").innerHTML = this.response.consolidated_weather[0].the_temp;
+            document.getElementById("w").innerHTML = this.response.consolidated_weather[0].weather_state_name;
 
             var ctime = new Date(this.response.time);
             var stime = new Date(this.response.sun_set);
@@ -47,11 +51,7 @@ function getWeather(id) {
             var minutes = (stime - ctime) / 60000;
             var hours = Math.trunc(minutes/60);
             var mins = Math.round(minutes % 60);
-            
-            var spara = document.createElement("P");
-            var s = document.createTextNode(hours + " hours, " + mins + " minutes");
-            spara.appendChild(s);
-            document.getElementById("sdown").appendChild(spara);
+            document.getElementById("s").innerHTML = hours + " hours, " + mins + " minutes";
 
             var maxt = [];
             var mint = [];
@@ -94,7 +94,13 @@ function getWeather(id) {
                     data: mint
                 }]
             });
-            
+
+            var coords = this.response.latt_long.split(",")
+            mymap.setView(coords, 12);
+
+            var marker = L.marker(coords).addTo(mymap);
+            document.getElementById("locmap").style.visibility = "visible";
+            document.getElementById("locmap").style.height = "320px";
         }
     }
     xhttp.open("GET", url, true);

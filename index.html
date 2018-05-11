@@ -6,8 +6,20 @@
     <title>Weather Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css"/>
-    <script src="main.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBmgLM5ysGkG5OWaC9XW3iBD44m3U6kjb0&libraries=places" type="text/javascript"></script>
+    <script>
+        function initialize() {
+      var input = document.getElementById('loc');
+      var options = {
+          types: ["(cities)"]
+      };
+      var autocomplete = new google.maps.places.Autocomplete(input, options);
+   }
+   google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </head>
 <body>
     <h1 class="item">Weather Dashboard</h1>
@@ -17,20 +29,26 @@
         <input type="button" value="Submit" id="button1">
     </form>
 
+    <div id="locmap" class="item"></div>
+
     <div class="item" id="ctemp">
         <h2>Current Temp</h2>
+        <p id="t"></p>
     </div>
 
     <div class="item" id="cweather">
         <h2>Current Weather</h2>
+        <p id="w"></p>
     </div>
 
     <div class="item" id="sdown">
         <h2>Sundown</h2>
+        <p id="s"></p>
     </div>
 
     <div class="item" id="container">
         <h2>Six Day Forecast</h2>
     </div>
 </body>
+<script src="main.js"></script>
 </html>
